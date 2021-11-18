@@ -9,6 +9,7 @@ public class TeleportHandler : MonoBehaviour
     private Transform pairedTeleporterTransform;
     [SerializeField]
     private GameObject teleportee;
+    private MouseHandler teleporteeMouseHandler;
     private CharacterController controller;
     private bool allowTeleport;
     // Start is called before the first frame update
@@ -16,6 +17,7 @@ public class TeleportHandler : MonoBehaviour
     {
         pairedTeleporterTransform = pairedTeleporter.transform;
         controller = teleportee.GetComponent<CharacterController>();
+        teleporteeMouseHandler = teleportee.GetComponent<MouseHandler>();
         allowTeleport = true;
         
     }
@@ -45,7 +47,10 @@ public class TeleportHandler : MonoBehaviour
     private void Teleport()
     {
         controller.enabled = false;
+        teleporteeMouseHandler.enabled = false;
         teleportee.transform.position += (pairedTeleporter.transform.position - teleportee.transform.position) - (this.gameObject.transform.position - teleportee.transform.position);
+        teleportee.transform.Rotate(0, 0, 0);
+        teleporteeMouseHandler.enabled = true;
         controller.enabled = true;
         
 
